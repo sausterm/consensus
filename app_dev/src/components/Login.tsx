@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import { Auth } from 'aws-amplify';
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
+    const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = async () => {
     try {
       await Auth.signIn(username, password);
-      // Login successful
+      navigate('/home'); // Redirect to the Home page after successful login
     } catch (error) {
-      console.error('Error signing in:', error);
+      console.error('Error during login', error);
     }
   };
+  
 
   return (
     <div>
