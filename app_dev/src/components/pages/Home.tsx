@@ -2,11 +2,26 @@
 import React, { useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
+import Poll from 'components/modules/Poll';
+
+
+
 
 const Home: React.FC = () => {
   
   const navigate = useNavigate();
   const [user, setUser] = useState<any | null>(null);
+
+  const pollQuestions = [
+    {
+      id: 'question1',
+      label: 'How did you hear about us?',
+      questionType: 'single', // for example purposes, define the types as per your Poll component logic
+      inputType: 'text',
+      required: true,
+    },
+    // Add more questions as needed
+  ];
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -16,12 +31,13 @@ const Home: React.FC = () => {
         
       } catch (error) {
         console.error('Error fetching user', error);
+        navigate('/login'); 
       }
     };
     
     fetchUser();
     
-  }, []);
+  }, [navigate]);
 
   const handleLogout = async () => {
     try {
@@ -42,6 +58,11 @@ const Home: React.FC = () => {
         <p><strong>Username:</strong> {user ? user.username : 'Fetching...'}</p>
         {/* You can add more attributes here as you have them in the user object */}
       </section>
+
+
+      <Poll questions={pollQuestions} />
+
+
       <button onClick={handleLogout}>Logout</button>
     </div>
   );
