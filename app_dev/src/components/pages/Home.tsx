@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import Poll from 'components/modules/Poll';
 
 
-
-
 const Home: React.FC = () => {
   
   const navigate = useNavigate();
   const [user, setUser] = useState<any | null>(null);
+
+  const tableName = process.env.REACT_APP_USERS_TABLE_ARN
+  console.log("ENV VARIABLES tableName",tableName);
+
 
   const pollQuestions = [
     {
