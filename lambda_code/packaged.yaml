@@ -8,15 +8,14 @@ Resources:
   AddPollFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://dev-app-lambda-code/acf710cfc91565448064d0567fad438f
+      CodeUri: s3://dev-app-lambda-code/4421b033db1acd1cb97168eedc101f6f
       Handler: addPollScript.handler
-      Runtime: nodejs14.x
+      Runtime: python3.11
       MemorySize: 128
       Timeout: 10
       Environment:
         Variables:
           POLLS_TABLE: PollsTable
-          AWS_REGION: us-east-1
       Policies:
       - DynamoDBWritePolicy:
           TableName: PollsTable

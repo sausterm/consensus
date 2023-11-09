@@ -12,11 +12,18 @@
     "compile": "tsc",
     "test": "npm run compile && npm run unit"
   },
+
+
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0",
     "esbuild": "^0.14.14"
   },
+  
   "devDependencies": {
     "@types/aws-lambda": "^8.10.92",
+    "@aws-sdk/client-dynamodb": "^3.0.0",
+    "@aws-sdk/lib-dynamodb": "^3.0.0",
     "@types/jest": "^29.2.0",
     "@types/node": "^18.11.4",
     "@typescript-eslint/eslint-plugin": "^5.10.2",
