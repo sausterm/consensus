@@ -3,6 +3,16 @@
 # chmod +x set_env.sh
 # ./set_env.sh
 
+#
+#App-dev-nov-2023 key 
+#Access key:  AKIAQIEYXCMYYTYUMEPF
+#secret key: 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
+
+#admin
+AWS_DEFAULT_REGION=us-east-1
+export AWS_ACCESS_KEY_ID=AKIAQIEYXCMYVHOWZ352
+export AWS_SECRET_ACCESS_KEY=V1XEMO920Kcb/M9LAcZ5fZ3RsfasVT/lr8Gbautk
+
 
 # Replace YOUR_STACK_NAME with the actual name of your stack.
 outputs=$(aws cloudformation describe-stacks --stack-name infrastructure --query 'Stacks[0].Outputs')
