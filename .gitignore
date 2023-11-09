@@ -18,6 +18,4 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 **.sample
-#amplify-do-not-edit-end
-
-set_env.sh
+#amplify-do-not-edit-en
