@@ -3,8 +3,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=osx,node,linux,windows,sam
 
 
-/Users/sloanaustermann/Documents/Projects/app_dev/app_dev/set_env.sh
-app_dev/set_env.sh
+set_env.sh
 ### Linux ###
 *~
 
