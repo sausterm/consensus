@@ -1,0 +1,35 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'AWS SAM template for deploying a Lambda function to add poll questions
+  to DynamoDB
+
+  '
+Resources:
+  AddPollFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://dev-app-lambda-code/acf710cfc91565448064d0567fad438f
+      Handler: addPollScript.handler
+      Runtime: nodejs14.x
+      MemorySize: 128
+      Timeout: 10
+      Environment:
+        Variables:
+          POLLS_TABLE: PollsTable
+          AWS_REGION: us-east-1
+      Policies:
+      - DynamoDBWritePolicy:
+          TableName: PollsTable
+    Metadata:
+      SamResourceId: AddPollFunction
+Outputs:
+  AddPollFunctionArn:
+    Description: Lambda Function ARN
+    Value:
+      Fn::GetAtt:
+      - AddPollFunction
+      - Arn
+  AddPollFunctionName:
+    Description: Lambda Function Name
+    Value:
+      Ref: AddPollFunction
