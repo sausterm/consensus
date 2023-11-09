@@ -58,7 +58,6 @@ function ConfirmSignUp() {
          // This ensures TableName is a string
         Item: {
           user_id: username// Replace with your actual user id value
-          // ... add other user attributes here
         }
       };
 
