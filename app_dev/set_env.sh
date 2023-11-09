@@ -11,9 +11,8 @@
 #admin
 
 AWS_DEFAULT_REGION=us-east-1
-export AWS_ACCESS_KEY_ID=AKIAQIEYXCMYVHOWZ352
-export AWS_SECRET_ACCESS_KEY=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
-
+export AWS_ACCESS_KEY_ID=AKIAQIEYXCMYVALA5Z5B
+export AWS_SECRET_ACCESS_KEY=raIN98d7qZbWbJ8nItlsvNyYRxsxNabsqI24atS0
 
 # Replace YOUR_STACK_NAME with the actual name of your stack.
 outputs=$(aws cloudformation describe-stacks --stack-name infrastructure --query 'Stacks[0].Outputs')
