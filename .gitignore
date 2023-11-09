@@ -20,4 +20,4 @@ amplifytools.xcconfig
 **.sample
 #amplify-do-not-edit-end
 
-app_dev/set_env.sh
+set_env.sh
