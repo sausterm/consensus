@@ -13,9 +13,6 @@ export AWS_DEFAULT_REGION=us-east-1
 
 
 
-export AWS_ACCESS_KEY_ID=AKIAQIEYXCMYVHOWZ352
-export AWS_SECRET_ACCESS_KEY=V1XEMO920Kcb/M9LAcZ5fZ3RsfasVT/lr8Gbautk
-
 
 sam build
 # Package your application
