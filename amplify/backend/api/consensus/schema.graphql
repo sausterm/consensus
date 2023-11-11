@@ -3,7 +3,6 @@ type User @model @auth(rules: [{ allow: owner }]) {
   username: String!
   userProfile: UserProfile @hasOne
   responses: [Response] @hasMany(indexName: "byRespondent", fields: ["id"])
-
 }
 
 type UserProfile @model @auth(rules: [{ allow: owner }]) {
@@ -27,26 +26,43 @@ type Poll @model
   title: String!
   description: String
   topic: String! @index(name: "byTopic", sortKeyFields: ["createdAt"], queryField: "pollsByTopic")
+  tags: [String]
   createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "pollsByCreatedAt")
-  responses: [Response] @hasMany
+  questions: [Question] @hasMany
 }
 
+type Question @model 
+  @auth(rules: [{ allow: public, provider: apiKey, operations: [create, read, update, delete] }])
+{
+  id: ID!
+  pollId: ID! @index(name: "byPoll", sortKeyFields: ["id"])
+  pollCreatedAt: AWSDateTime!   # Add this field to match the composite key
+  content: String!
+  questionType: QuestionType!
+  options: [String]
+  required: Boolean
+  poll: Poll @belongsTo(fields: ["pollId", "pollCreatedAt"]) # Include both fields
+  responses: [Response] @hasMany(indexName: "byQuestion", fields: ["id"])
+}
+
+enum QuestionType {
+  TEXT
+  MULTIPLE_CHOICE
+  CHECKBOX
+  SLIDER
+  YES_NO
+  RANKING
+}
 
 type Response @model
   @auth(rules: [{ allow: owner }])
 {
   id: ID! @primaryKey
-  pollId: ID! @index(name: "byPoll", queryField: "responsesByPoll")
-  respondentId: ID! @index(name: "byRespondent", queryField: "responsesByRespondent")
-  questionId: ID!
-  content: String!
+  pollId: ID! @index(name: "byPoll", sortKeyFields: ["createdAt"])
+  questionId: ID! @index(name: "byQuestion", sortKeyFields: ["createdAt"])
+  respondentId: ID! @index(name: "byRespondent", sortKeyFields: ["createdAt"])
+  answer: AWSJSON
   createdAt: AWSDateTime!
-  respondent: User @belongsTo
-}
-
-
-enum ResponseType {
-  TEXT
-  MULTIPLE_CHOICE
-  CHECKBOX
+  respondent: User @belongsTo(fields: ["respondentId"])
+  question: Question @belongsTo(fields: ["questionId"])
 }

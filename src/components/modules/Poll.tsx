@@ -1,15 +1,16 @@
 import React from 'react';
 
 // Define the shape of the props expected by the component
+interface QuestionProps {
+  id: string;
+  content: string;
+  inputType: string;
+  options?: string[];
+  required?: boolean;
+}
+
 interface PollProps {
-  questions: {
-    id: string;
-    label: string;
-    questionType: string;
-    inputType: string;
-    options?: string[];
-    required?: boolean;
-  }[];
+  questions: QuestionProps[];
 }
 
 // Define the shape of the state
@@ -54,9 +55,10 @@ class Poll extends React.Component<PollProps, PollState> {
     return isValid;
   };
 
-  submitPoll = (event: React.FormEvent<HTMLFormElement>) => {
+  submitPoll = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (this.validateResponse()) {
+      // Submit the responses here, e.g., using a GraphQL mutation
       console.log('Poll submitted:', this.state.responses);
       alert('Poll submitted successfully!');
     } else {
@@ -64,26 +66,25 @@ class Poll extends React.Component<PollProps, PollState> {
     }
   };
 
-  renderInput = (questionType: string, inputType: string, questionId: string, options: string[] = []) => {
+  renderInput = (question: QuestionProps) => {
     const inputProps = {
-      onChange: (event: React.ChangeEvent<HTMLInputElement>) => this.handleChange(event, questionId),
-      value: this.state.responses[questionId] || '',
+      onChange: (event: React.ChangeEvent<HTMLInputElement>) => this.handleChange(event, question.id),
+      value: this.state.responses[question.id] || '',
     };
-  
-    // This is an example. You should adjust the cases and elements based on your needs.
-    switch (inputType) {
-      case 'text':
+
+    switch (question.questionType) {
+      case 'TEXT':
         return <input type="text" {...inputProps} />;
-      case 'radio':
+      case 'MULTIPLE_CHOICE':
         return (
           <div>
-            {options.map((option, index) => (
+            {question.options?.map((option, index) => (
               <label key={index}>
                 <input
                   type="radio"
-                  name={questionId}
+                  name={question.id}
                   value={option}
-                  checked={this.state.responses[questionId] === option}
+                  checked={this.state.responses[question.id] === option}
                   onChange={inputProps.onChange}
                 />
                 {option}
@@ -91,30 +92,96 @@ class Poll extends React.Component<PollProps, PollState> {
             ))}
           </div>
         );
-      // Handle other input types here...
+      case 'CHECKBOX':
+        return (
+          <div>
+            {question.options?.map((option, index) => (
+              <label key={index}>
+                <input
+                  type="checkbox"
+                  name={question.id}
+                  value={option}
+                  checked={this.state.responses[question.id]?.includes(option)}
+                  onChange={(event) => this.handleCheckboxChange(event, question.id, option)}
+                />
+                {option}
+              </label>
+            ))}
+          </div>
+        );
+      case 'SLIDER':
+        return <input type="range" {...inputProps} />;
+      case 'YES_NO':
+        return (
+          <div>
+            <label>
+              <input
+                type="radio"
+                name={question.id}
+                value="Yes"
+                checked={this.state.responses[question.id] === "Yes"}
+                onChange={inputProps.onChange}
+              />
+              Yes
+            </label>
+            <label>
+              <input
+                type="radio"
+                name={question.id}
+                value="No"
+                checked={this.state.responses[question.id] === "No"}
+                onChange={inputProps.onChange}
+              />
+              No
+            </label>
+          </div>
+        );
+      case 'RANKING':
+        // Implement the ranking question type as per your requirements
+        return null;
       default:
-        return <input type="text" {...inputProps} />; // Default to text input if type is unrecognized
+        return null; // Return null for unrecognized types
     }
   };
-  
+
+  handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, questionId: string, option: string) => {
+    const { checked } = event.target;
+    this.setState((prevState) => {
+      const currentResponses = prevState.responses[questionId] || [];
+      if (checked) {
+        return {
+          responses: {
+            ...prevState.responses,
+            [questionId]: [...currentResponses, option],
+          },
+        };
+      } else {
+        return {
+          responses: {
+            ...prevState.responses,
+            [questionId]: currentResponses.filter((opt: string) => opt !== option),
+          },
+        };
+      }
+    });
+  };
+
   render() {
     const { questions } = this.props;
     const { errors } = this.state;
 
     return (
-        <form onSubmit={this.submitPoll}>
-          {questions.map(question => (
-            <div key={question.id}>
-              <label>{question.label}</label>
-              {this.renderInput(question.questionType, question.inputType, question.id, question.options)}
-              {errors[question.id] && <div className="error">{errors[question.id]}</div>}
-            </div>
-          ))}
-        </form>
-      );
-      
+      <form onSubmit={this.submitPoll}>
+        {questions.map((question) => (
+          <div key={question.id}>
+            <label>{question.content}</label>
+            {this.renderInput(question)}
+            {errors[question.id] && <div className="error">{errors[question.id]}</div>}
+          </div>
+        ))}
+      </form>
+    );
   }
 }
-
 
 export default Poll;

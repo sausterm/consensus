@@ -2,7 +2,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from "./src/API";
+import * as APITypes from "../../src/API";
 type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryInput: InputType;
   __generatedQueryOutput: OutputType;
@@ -14,8 +14,9 @@ export const getPoll = /* GraphQL */ `query GetPoll($id: ID!, $createdAt: AWSDat
     title
     description
     topic
+    tags
     createdAt
-    responses {
+    questions {
       nextToken
       __typename
     }
@@ -45,6 +46,7 @@ export const listPolls = /* GraphQL */ `query ListPolls(
       title
       description
       topic
+      tags
       createdAt
       updatedAt
       __typename
@@ -54,6 +56,68 @@ export const listPolls = /* GraphQL */ `query ListPolls(
   }
 }
 ` as GeneratedQuery<APITypes.ListPollsQueryVariables, APITypes.ListPollsQuery>;
+export const getQuestion = /* GraphQL */ `query GetQuestion($id: ID!) {
+  getQuestion(id: $id) {
+    id
+    pollId
+    pollCreatedAt
+    content
+    questionType
+    options
+    required
+    poll {
+      id
+      title
+      description
+      topic
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
+    responses {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    pollQuestionsId
+    pollQuestionsCreatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetQuestionQueryVariables,
+  APITypes.GetQuestionQuery
+>;
+export const listQuestions = /* GraphQL */ `query ListQuestions(
+  $filter: ModelQuestionFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listQuestions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      pollId
+      pollCreatedAt
+      content
+      questionType
+      options
+      required
+      createdAt
+      updatedAt
+      pollQuestionsId
+      pollQuestionsCreatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListQuestionsQueryVariables,
+  APITypes.ListQuestionsQuery
+>;
 export const pollsByTopic = /* GraphQL */ `query PollsByTopic(
   $topic: String!
   $createdAt: ModelStringKeyConditionInput
@@ -75,6 +139,7 @@ export const pollsByTopic = /* GraphQL */ `query PollsByTopic(
       title
       description
       topic
+      tags
       createdAt
       updatedAt
       __typename
@@ -106,6 +171,7 @@ export const pollsByCreatedAt = /* GraphQL */ `query PollsByCreatedAt(
       title
       description
       topic
+      tags
       createdAt
       updatedAt
       __typename
@@ -117,6 +183,44 @@ export const pollsByCreatedAt = /* GraphQL */ `query PollsByCreatedAt(
 ` as GeneratedQuery<
   APITypes.PollsByCreatedAtQueryVariables,
   APITypes.PollsByCreatedAtQuery
+>;
+export const questionsByPollIdAndId = /* GraphQL */ `query QuestionsByPollIdAndId(
+  $pollId: ID!
+  $id: ModelIDKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelQuestionFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  questionsByPollIdAndId(
+    pollId: $pollId
+    id: $id
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      pollId
+      pollCreatedAt
+      content
+      questionType
+      options
+      required
+      createdAt
+      updatedAt
+      pollQuestionsId
+      pollQuestionsCreatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.QuestionsByPollIdAndIdQueryVariables,
+  APITypes.QuestionsByPollIdAndIdQuery
 >;
 export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
   getUser(id: $id) {
@@ -235,9 +339,9 @@ export const getResponse = /* GraphQL */ `query GetResponse($id: ID!) {
   getResponse(id: $id) {
     id
     pollId
-    respondentId
     questionId
-    content
+    respondentId
+    answer
     createdAt
     respondent {
       id
@@ -248,9 +352,21 @@ export const getResponse = /* GraphQL */ `query GetResponse($id: ID!) {
       owner
       __typename
     }
+    question {
+      id
+      pollId
+      pollCreatedAt
+      content
+      questionType
+      options
+      required
+      createdAt
+      updatedAt
+      pollQuestionsId
+      pollQuestionsCreatedAt
+      __typename
+    }
     updatedAt
-    pollResponsesId
-    pollResponsesCreatedAt
     owner
     __typename
   }
@@ -276,13 +392,11 @@ export const listResponses = /* GraphQL */ `query ListResponses(
     items {
       id
       pollId
-      respondentId
       questionId
-      content
+      respondentId
+      answer
       createdAt
       updatedAt
-      pollResponsesId
-      pollResponsesCreatedAt
       owner
       __typename
     }
@@ -294,15 +408,17 @@ export const listResponses = /* GraphQL */ `query ListResponses(
   APITypes.ListResponsesQueryVariables,
   APITypes.ListResponsesQuery
 >;
-export const responsesByPoll = /* GraphQL */ `query ResponsesByPoll(
+export const responsesByPollIdAndCreatedAt = /* GraphQL */ `query ResponsesByPollIdAndCreatedAt(
   $pollId: ID!
+  $createdAt: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
   $filter: ModelResponseFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  responsesByPoll(
+  responsesByPollIdAndCreatedAt(
     pollId: $pollId
+    createdAt: $createdAt
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -311,13 +427,11 @@ export const responsesByPoll = /* GraphQL */ `query ResponsesByPoll(
     items {
       id
       pollId
-      respondentId
       questionId
-      content
+      respondentId
+      answer
       createdAt
       updatedAt
-      pollResponsesId
-      pollResponsesCreatedAt
       owner
       __typename
     }
@@ -326,18 +440,20 @@ export const responsesByPoll = /* GraphQL */ `query ResponsesByPoll(
   }
 }
 ` as GeneratedQuery<
-  APITypes.ResponsesByPollQueryVariables,
-  APITypes.ResponsesByPollQuery
+  APITypes.ResponsesByPollIdAndCreatedAtQueryVariables,
+  APITypes.ResponsesByPollIdAndCreatedAtQuery
 >;
-export const responsesByRespondent = /* GraphQL */ `query ResponsesByRespondent(
-  $respondentId: ID!
+export const responsesByQuestionIdAndCreatedAt = /* GraphQL */ `query ResponsesByQuestionIdAndCreatedAt(
+  $questionId: ID!
+  $createdAt: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
   $filter: ModelResponseFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  responsesByRespondent(
-    respondentId: $respondentId
+  responsesByQuestionIdAndCreatedAt(
+    questionId: $questionId
+    createdAt: $createdAt
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -346,13 +462,11 @@ export const responsesByRespondent = /* GraphQL */ `query ResponsesByRespondent(
     items {
       id
       pollId
-      respondentId
       questionId
-      content
+      respondentId
+      answer
       createdAt
       updatedAt
-      pollResponsesId
-      pollResponsesCreatedAt
       owner
       __typename
     }
@@ -361,6 +475,41 @@ export const responsesByRespondent = /* GraphQL */ `query ResponsesByRespondent(
   }
 }
 ` as GeneratedQuery<
-  APITypes.ResponsesByRespondentQueryVariables,
-  APITypes.ResponsesByRespondentQuery
+  APITypes.ResponsesByQuestionIdAndCreatedAtQueryVariables,
+  APITypes.ResponsesByQuestionIdAndCreatedAtQuery
+>;
+export const responsesByRespondentIdAndCreatedAt = /* GraphQL */ `query ResponsesByRespondentIdAndCreatedAt(
+  $respondentId: ID!
+  $createdAt: ModelStringKeyConditionInput
+  $sortDirection: ModelSortDirection
+  $filter: ModelResponseFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  responsesByRespondentIdAndCreatedAt(
+    respondentId: $respondentId
+    createdAt: $createdAt
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      pollId
+      questionId
+      respondentId
+      answer
+      createdAt
+      updatedAt
+      owner
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ResponsesByRespondentIdAndCreatedAtQueryVariables,
+  APITypes.ResponsesByRespondentIdAndCreatedAtQuery
 >;

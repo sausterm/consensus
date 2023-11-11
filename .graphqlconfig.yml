@@ -2,14 +2,16 @@ projects:
   consensus:
     schemaPath: src/graphql/schema.json
     includes:
-      - ''
+      - app_dev/src/graphql
     excludes:
       - ./amplify/**
+      - src/API.ts
     extensions:
       amplify:
         codeGenTarget: typescript
         generatedFileName: src/API.ts
-        docsFilePath: .
+        docsFilePath: app_dev/src
+        maxDepth: 2
 extensions:
   amplify:
     version: 3

@@ -2,7 +2,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from "./src/API";
+import * as APITypes from "../../src/API";
 type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionInput: InputType;
   __generatedSubscriptionOutput: OutputType;
@@ -14,8 +14,9 @@ export const onCreatePoll = /* GraphQL */ `subscription OnCreatePoll($filter: Mo
     title
     description
     topic
+    tags
     createdAt
-    responses {
+    questions {
       nextToken
       __typename
     }
@@ -33,8 +34,9 @@ export const onUpdatePoll = /* GraphQL */ `subscription OnUpdatePoll($filter: Mo
     title
     description
     topic
+    tags
     createdAt
-    responses {
+    questions {
       nextToken
       __typename
     }
@@ -52,8 +54,9 @@ export const onDeletePoll = /* GraphQL */ `subscription OnDeletePoll($filter: Mo
     title
     description
     topic
+    tags
     createdAt
-    responses {
+    questions {
       nextToken
       __typename
     }
@@ -64,6 +67,108 @@ export const onDeletePoll = /* GraphQL */ `subscription OnDeletePoll($filter: Mo
 ` as GeneratedSubscription<
   APITypes.OnDeletePollSubscriptionVariables,
   APITypes.OnDeletePollSubscription
+>;
+export const onCreateQuestion = /* GraphQL */ `subscription OnCreateQuestion($filter: ModelSubscriptionQuestionFilterInput) {
+  onCreateQuestion(filter: $filter) {
+    id
+    pollId
+    pollCreatedAt
+    content
+    questionType
+    options
+    required
+    poll {
+      id
+      title
+      description
+      topic
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
+    responses {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    pollQuestionsId
+    pollQuestionsCreatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateQuestionSubscriptionVariables,
+  APITypes.OnCreateQuestionSubscription
+>;
+export const onUpdateQuestion = /* GraphQL */ `subscription OnUpdateQuestion($filter: ModelSubscriptionQuestionFilterInput) {
+  onUpdateQuestion(filter: $filter) {
+    id
+    pollId
+    pollCreatedAt
+    content
+    questionType
+    options
+    required
+    poll {
+      id
+      title
+      description
+      topic
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
+    responses {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    pollQuestionsId
+    pollQuestionsCreatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateQuestionSubscriptionVariables,
+  APITypes.OnUpdateQuestionSubscription
+>;
+export const onDeleteQuestion = /* GraphQL */ `subscription OnDeleteQuestion($filter: ModelSubscriptionQuestionFilterInput) {
+  onDeleteQuestion(filter: $filter) {
+    id
+    pollId
+    pollCreatedAt
+    content
+    questionType
+    options
+    required
+    poll {
+      id
+      title
+      description
+      topic
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
+    responses {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    pollQuestionsId
+    pollQuestionsCreatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteQuestionSubscriptionVariables,
+  APITypes.OnDeleteQuestionSubscription
 >;
 export const onCreateUser = /* GraphQL */ `subscription OnCreateUser(
   $filter: ModelSubscriptionUserFilterInput
@@ -288,9 +393,9 @@ export const onCreateResponse = /* GraphQL */ `subscription OnCreateResponse(
   onCreateResponse(filter: $filter, owner: $owner) {
     id
     pollId
-    respondentId
     questionId
-    content
+    respondentId
+    answer
     createdAt
     respondent {
       id
@@ -301,9 +406,21 @@ export const onCreateResponse = /* GraphQL */ `subscription OnCreateResponse(
       owner
       __typename
     }
+    question {
+      id
+      pollId
+      pollCreatedAt
+      content
+      questionType
+      options
+      required
+      createdAt
+      updatedAt
+      pollQuestionsId
+      pollQuestionsCreatedAt
+      __typename
+    }
     updatedAt
-    pollResponsesId
-    pollResponsesCreatedAt
     owner
     __typename
   }
@@ -319,9 +436,9 @@ export const onUpdateResponse = /* GraphQL */ `subscription OnUpdateResponse(
   onUpdateResponse(filter: $filter, owner: $owner) {
     id
     pollId
-    respondentId
     questionId
-    content
+    respondentId
+    answer
     createdAt
     respondent {
       id
@@ -332,9 +449,21 @@ export const onUpdateResponse = /* GraphQL */ `subscription OnUpdateResponse(
       owner
       __typename
     }
+    question {
+      id
+      pollId
+      pollCreatedAt
+      content
+      questionType
+      options
+      required
+      createdAt
+      updatedAt
+      pollQuestionsId
+      pollQuestionsCreatedAt
+      __typename
+    }
     updatedAt
-    pollResponsesId
-    pollResponsesCreatedAt
     owner
     __typename
   }
@@ -350,9 +479,9 @@ export const onDeleteResponse = /* GraphQL */ `subscription OnDeleteResponse(
   onDeleteResponse(filter: $filter, owner: $owner) {
     id
     pollId
-    respondentId
     questionId
-    content
+    respondentId
+    answer
     createdAt
     respondent {
       id
@@ -363,9 +492,21 @@ export const onDeleteResponse = /* GraphQL */ `subscription OnDeleteResponse(
       owner
       __typename
     }
+    question {
+      id
+      pollId
+      pollCreatedAt
+      content
+      questionType
+      options
+      required
+      createdAt
+      updatedAt
+      pollQuestionsId
+      pollQuestionsCreatedAt
+      __typename
+    }
     updatedAt
-    pollResponsesId
-    pollResponsesCreatedAt
     owner
     __typename
   }

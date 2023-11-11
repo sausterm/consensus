@@ -2,7 +2,7 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-import * as APITypes from "./src/API";
+import * as APITypes from "../../src/API";
 type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationInput: InputType;
   __generatedMutationOutput: OutputType;
@@ -17,8 +17,9 @@ export const createPoll = /* GraphQL */ `mutation CreatePoll(
     title
     description
     topic
+    tags
     createdAt
-    responses {
+    questions {
       nextToken
       __typename
     }
@@ -39,8 +40,9 @@ export const updatePoll = /* GraphQL */ `mutation UpdatePoll(
     title
     description
     topic
+    tags
     createdAt
-    responses {
+    questions {
       nextToken
       __typename
     }
@@ -61,8 +63,9 @@ export const deletePoll = /* GraphQL */ `mutation DeletePoll(
     title
     description
     topic
+    tags
     createdAt
-    responses {
+    questions {
       nextToken
       __typename
     }
@@ -73,6 +76,117 @@ export const deletePoll = /* GraphQL */ `mutation DeletePoll(
 ` as GeneratedMutation<
   APITypes.DeletePollMutationVariables,
   APITypes.DeletePollMutation
+>;
+export const createQuestion = /* GraphQL */ `mutation CreateQuestion(
+  $input: CreateQuestionInput!
+  $condition: ModelQuestionConditionInput
+) {
+  createQuestion(input: $input, condition: $condition) {
+    id
+    pollId
+    pollCreatedAt
+    content
+    questionType
+    options
+    required
+    poll {
+      id
+      title
+      description
+      topic
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
+    responses {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    pollQuestionsId
+    pollQuestionsCreatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateQuestionMutationVariables,
+  APITypes.CreateQuestionMutation
+>;
+export const updateQuestion = /* GraphQL */ `mutation UpdateQuestion(
+  $input: UpdateQuestionInput!
+  $condition: ModelQuestionConditionInput
+) {
+  updateQuestion(input: $input, condition: $condition) {
+    id
+    pollId
+    pollCreatedAt
+    content
+    questionType
+    options
+    required
+    poll {
+      id
+      title
+      description
+      topic
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
+    responses {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    pollQuestionsId
+    pollQuestionsCreatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateQuestionMutationVariables,
+  APITypes.UpdateQuestionMutation
+>;
+export const deleteQuestion = /* GraphQL */ `mutation DeleteQuestion(
+  $input: DeleteQuestionInput!
+  $condition: ModelQuestionConditionInput
+) {
+  deleteQuestion(input: $input, condition: $condition) {
+    id
+    pollId
+    pollCreatedAt
+    content
+    questionType
+    options
+    required
+    poll {
+      id
+      title
+      description
+      topic
+      tags
+      createdAt
+      updatedAt
+      __typename
+    }
+    responses {
+      nextToken
+      __typename
+    }
+    createdAt
+    updatedAt
+    pollQuestionsId
+    pollQuestionsCreatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteQuestionMutationVariables,
+  APITypes.DeleteQuestionMutation
 >;
 export const createUser = /* GraphQL */ `mutation CreateUser(
   $input: CreateUserInput!
@@ -297,9 +411,9 @@ export const createResponse = /* GraphQL */ `mutation CreateResponse(
   createResponse(input: $input, condition: $condition) {
     id
     pollId
-    respondentId
     questionId
-    content
+    respondentId
+    answer
     createdAt
     respondent {
       id
@@ -310,9 +424,21 @@ export const createResponse = /* GraphQL */ `mutation CreateResponse(
       owner
       __typename
     }
+    question {
+      id
+      pollId
+      pollCreatedAt
+      content
+      questionType
+      options
+      required
+      createdAt
+      updatedAt
+      pollQuestionsId
+      pollQuestionsCreatedAt
+      __typename
+    }
     updatedAt
-    pollResponsesId
-    pollResponsesCreatedAt
     owner
     __typename
   }
@@ -328,9 +454,9 @@ export const updateResponse = /* GraphQL */ `mutation UpdateResponse(
   updateResponse(input: $input, condition: $condition) {
     id
     pollId
-    respondentId
     questionId
-    content
+    respondentId
+    answer
     createdAt
     respondent {
       id
@@ -341,9 +467,21 @@ export const updateResponse = /* GraphQL */ `mutation UpdateResponse(
       owner
       __typename
     }
+    question {
+      id
+      pollId
+      pollCreatedAt
+      content
+      questionType
+      options
+      required
+      createdAt
+      updatedAt
+      pollQuestionsId
+      pollQuestionsCreatedAt
+      __typename
+    }
     updatedAt
-    pollResponsesId
-    pollResponsesCreatedAt
     owner
     __typename
   }
@@ -359,9 +497,9 @@ export const deleteResponse = /* GraphQL */ `mutation DeleteResponse(
   deleteResponse(input: $input, condition: $condition) {
     id
     pollId
-    respondentId
     questionId
-    content
+    respondentId
+    answer
     createdAt
     respondent {
       id
@@ -372,9 +510,21 @@ export const deleteResponse = /* GraphQL */ `mutation DeleteResponse(
       owner
       __typename
     }
+    question {
+      id
+      pollId
+      pollCreatedAt
+      content
+      questionType
+      options
+      required
+      createdAt
+      updatedAt
+      pollQuestionsId
+      pollQuestionsCreatedAt
+      __typename
+    }
     updatedAt
-    pollResponsesId
-    pollResponsesCreatedAt
     owner
     __typename
   }
