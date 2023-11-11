@@ -1,7 +1,7 @@
 import React from 'react';
-
 import { Amplify } from 'aws-amplify';
-import awsconfig from './amplify/aws-exports.js'; // adjust the path if needed
+import awsconfig from './aws-exports'; // Corrected import statement
+ // adjust the path if needed
 
 import PrivateRoute from './components/auth/PrivateRoute.js';
 

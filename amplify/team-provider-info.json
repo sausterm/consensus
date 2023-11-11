@@ -1,19 +1,31 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-appdev-dev-211432-authRole",
-      "UnauthRoleArn": "arn:aws:iam::017500148529:role/amplify-appdev-dev-211432-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::017500148529:role/amplify-appdev-dev-211432-authRole",
+      "AuthRoleName": "amplify-consensus-dev-160310-authRole",
+      "UnauthRoleArn": "arn:aws:iam::017500148529:role/amplify-consensus-dev-160310-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::017500148529:role/amplify-consensus-dev-160310-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-appdev-dev-211432-deployment",
-      "UnauthRoleName": "amplify-appdev-dev-211432-unauthRole",
-      "StackName": "amplify-appdev-dev-211432",
-      "StackId": "arn:aws:cloudformation:us-east-1:017500148529:stack/amplify-appdev-dev-211432/b0617ea0-6335-11ee-b4c7-124df7e2c137",
-      "AmplifyAppId": "d3pfgyj7jrltua"
+      "DeploymentBucketName": "amplify-consensus-dev-160310-deployment",
+      "UnauthRoleName": "amplify-consensus-dev-160310-unauthRole",
+      "StackName": "amplify-consensus-dev-160310",
+      "StackId": "arn:aws:cloudformation:us-east-1:017500148529:stack/amplify-consensus-dev-160310/8a1c66e0-7f5c-11ee-818e-0e2935d0b613",
+      "AmplifyAppId": "drb3ewg1kc0bg"
     },
     "categories": {
       "auth": {
-        "appdevcb40319a": {}
+        "consensus238334ac": {}
+      },
+      "api": {
+        "consensus": {}
+      },
+      "function": {
+        "devCreatePoll": {
+          "deploymentBucketName": "amplify-consensus-dev-160310-deployment",
+          "s3Key": "amplify-builds/devCreatePoll-5476686475646e766252-build.zip",
+          "apiConsensusGraphqlapikey": "da2-ba64rzjkafctlbn2qidqv7u5ci",
+          "awsRegionDev": "us-east-1",
+          "apiConsensusGraphqlapiendpoint": "https://q7gr6hbkenhqxgqpbcllbiwxke.appsync-api.us-east-1.amazonaws.com/graphql"
+        }
       }
     }
   }

@@ -1,4 +1,5 @@
 {
+ 
   "compilerOptions": {
     "lib": [
       "dom",
@@ -6,22 +7,22 @@
       "esnext"
     ],
     "baseUrl": "./src",
+    
     "allowJs": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "module": "ESNext",
+    "module": "CommonJS",
     "target": "ESNext",
     "moduleResolution": "node",
     "isolatedModules": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "noEmit": true,
+    "noEmit": false,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["amplify/backend/function/devCreatePoll/src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

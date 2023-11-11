@@ -1,0 +1,24 @@
+{
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "apiConsensusGraphqlapikey",
+      "environmentVariableName": "API_CONSENSUS_GRAPHQLAPIKEY"
+    },
+    {
+      "cloudFormationParameterName": "awsRegionDev",
+      "environmentVariableName": "AWS_REGION_DEV"
+    },
+    {
+      "cloudFormationParameterName": "apiConsensusGraphqlapiendpoint",
+      "environmentVariableName": "API_CONSENSUS_GRAPHQLAPIENDPOINT"
+    }
+  ],
+  "permissions": {
+    "api": {
+      "consensus": [
+        "Mutation"
+      ]
+    }
+  }
+}

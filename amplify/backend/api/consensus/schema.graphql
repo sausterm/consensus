@@ -1,0 +1,52 @@
+type User @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  username: String!
+  userProfile: UserProfile @hasOne
+  responses: [Response] @hasMany(indexName: "byRespondent", fields: ["id"])
+
+}
+
+type UserProfile @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  user: User @belongsTo(fields: ["userId"])
+  userId: ID!
+  age: Int
+  sex: String
+  gender: String
+  height: Float
+  occupation: String
+  religion: String
+  currentNationality: String
+  countryOfBirth: String
+}
+
+type Poll @model
+  @auth(rules: [{ allow: public, provider: apiKey, operations: [create, read, update, delete] }])
+{
+  id: ID! @primaryKey(sortKeyFields: ["createdAt"])
+  title: String!
+  description: String
+  topic: String! @index(name: "byTopic", sortKeyFields: ["createdAt"], queryField: "pollsByTopic")
+  createdAt: AWSDateTime! @index(name: "byCreatedAt", queryField: "pollsByCreatedAt")
+  responses: [Response] @hasMany
+}
+
+
+type Response @model
+  @auth(rules: [{ allow: owner }])
+{
+  id: ID! @primaryKey
+  pollId: ID! @index(name: "byPoll", queryField: "responsesByPoll")
+  respondentId: ID! @index(name: "byRespondent", queryField: "responsesByRespondent")
+  questionId: ID!
+  content: String!
+  createdAt: AWSDateTime!
+  respondent: User @belongsTo
+}
+
+
+enum ResponseType {
+  TEXT
+  MULTIPLE_CHOICE
+  CHECKBOX
+}

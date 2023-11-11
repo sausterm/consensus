@@ -1,19 +1,63 @@
 {
   "providers": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-appdev-dev-211432-authRole",
-      "UnauthRoleArn": "arn:aws:iam::017500148529:role/amplify-appdev-dev-211432-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::017500148529:role/amplify-appdev-dev-211432-authRole",
+      "AuthRoleName": "amplify-consensus-dev-160310-authRole",
+      "UnauthRoleArn": "arn:aws:iam::017500148529:role/amplify-consensus-dev-160310-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::017500148529:role/amplify-consensus-dev-160310-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-appdev-dev-211432-deployment",
-      "UnauthRoleName": "amplify-appdev-dev-211432-unauthRole",
-      "StackName": "amplify-appdev-dev-211432",
-      "StackId": "arn:aws:cloudformation:us-east-1:017500148529:stack/amplify-appdev-dev-211432/b0617ea0-6335-11ee-b4c7-124df7e2c137",
-      "AmplifyAppId": "d3pfgyj7jrltua"
+      "DeploymentBucketName": "amplify-consensus-dev-160310-deployment",
+      "UnauthRoleName": "amplify-consensus-dev-160310-unauthRole",
+      "StackName": "amplify-consensus-dev-160310",
+      "StackId": "arn:aws:cloudformation:us-east-1:017500148529:stack/amplify-consensus-dev-160310/8a1c66e0-7f5c-11ee-818e-0e2935d0b613",
+      "AmplifyAppId": "drb3ewg1kc0bg"
+    }
+  },
+  "api": {
+    "consensus": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "consensus238334ac"
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 365,
+              "apiKeyExpirationDate": "2024-11-09T23:27:33.307Z",
+              "description": "consensus-api-key"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authconsensus238334ac"
+              }
+            }
+          ]
+        },
+        "GraphQLAPIIdOutput": "omfbyo47lrenpp5q53ioc6ztcq",
+        "GraphQLAPIEndpointOutput": "https://q7gr6hbkenhqxgqpbcllbiwxke.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-ba64rzjkafctlbn2qidqv7u5ci"
+      },
+      "lastPushTimeStamp": "2023-11-11T02:14:53.665Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-consensus-dev-160310-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiconsensus"
+      },
+      "lastPushDirHash": "v7LucrE4WiVuoF0SssEFuoyoIrE="
     }
   },
   "auth": {
-    "appdevcb40319a": {
+    "consensus238334ac": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
@@ -37,20 +81,59 @@
         ]
       },
       "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-appdev-dev-211432-deployment/amplify-cfn-templates/auth/appdevcb40319a-cloudformation-template.json",
-        "logicalId": "authappdevcb40319a"
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-consensus-dev-160310-deployment/amplify-cfn-templates/auth/consensus238334ac-cloudformation-template.json",
+        "logicalId": "authconsensus238334ac"
       },
-      "lastPushTimeStamp": "2023-10-05T17:56:19.369Z",
+      "lastPushTimeStamp": "2023-11-11T02:14:50.718Z",
       "output": {
-        "UserPoolId": "us-east-1_iBThJ1epA",
-        "AppClientIDWeb": "1fp9jg0i663v6c7g3g8s5qstgu",
-        "AppClientID": "7mt3c1l1c0qk0d6l1hia59ugd7",
-        "IdentityPoolId": "us-east-1:ab4c37b5-4058-4eba-889d-2f8e434b3087",
-        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:017500148529:userpool/us-east-1_iBThJ1epA",
-        "IdentityPoolName": "appdevcb40319a_identitypool_cb40319a__dev",
-        "UserPoolName": "appdevcb40319a_userpool_cb40319a"
+        "UserPoolId": "us-east-1_nfo1mApt0",
+        "AppClientIDWeb": "4t4122q8mvdg5elqdbgnsa68jv",
+        "AppClientID": "4ulk7kfu5kfop29ntde3utsbul",
+        "IdentityPoolId": "us-east-1:6ddf17e3-7473-46a1-99df-35736ebe5934",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:017500148529:userpool/us-east-1_nfo1mApt0",
+        "IdentityPoolName": "consensus238334ac_identitypool_238334ac__dev",
+        "UserPoolName": "consensus238334ac_userpool_238334ac"
       },
-      "lastPushDirHash": "o27Gih+lH0hMnalFMeSaGhORUKk="
+      "lastPushDirHash": "RP+0QUcq5PcVnWSWbRyV7XK4ux0="
+    }
+  },
+  "function": {
+    "devCreatePoll": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "lastBuildTimeStamp": "2023-11-11T02:10:59.760Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2023-11-11T02:10:59.805Z",
+      "distZipFilename": "devCreatePoll-5476686475646e766252-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-consensus-dev-160310-deployment",
+        "s3Key": "amplify-builds/devCreatePoll-5476686475646e766252-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-consensus-dev-160310-deployment/amplify-cfn-templates/function/devCreatePoll-cloudformation-template.json",
+        "logicalId": "functiondevCreatePoll"
+      },
+      "lastPushTimeStamp": "2023-11-11T02:14:53.665Z",
+      "output": {
+        "LambdaExecutionRoleArn": "arn:aws:iam::017500148529:role/consensusLambdaRolee6dcbe72-dev",
+        "Region": "us-east-1",
+        "Arn": "arn:aws:lambda:us-east-1:017500148529:function:devCreatePoll-dev",
+        "Name": "devCreatePoll-dev",
+        "LambdaExecutionRole": "consensusLambdaRolee6dcbe72-dev"
+      },
+      "lastPushDirHash": "CqiAOiG3tGkuh7zvohtWoPTNUrY=",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "consensus",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ]
+        }
+      ]
     }
   }
 }
