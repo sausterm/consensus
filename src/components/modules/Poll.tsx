@@ -6,10 +6,11 @@ interface QuestionProps {
   content: string;
   inputType: string;
   options?: string[];
-  required?: boolean;
+  required?: boolean; 
 }
 
 interface PollProps {
+  title: string;  // Add title to the props
   questions: QuestionProps[];
 }
 
@@ -167,19 +168,23 @@ class Poll extends React.Component<PollProps, PollState> {
   };
 
   render() {
-    const { questions } = this.props;
+    const { title, questions } = this.props;
     const { errors } = this.state;
 
     return (
-      <form onSubmit={this.submitPoll}>
-        {questions.map((question) => (
-          <div key={question.id}>
-            <label>{question.content}</label>
-            {this.renderInput(question)}
-            {errors[question.id] && <div className="error">{errors[question.id]}</div>}
-          </div>
-        ))}
-      </form>
+      <div className="poll-container">
+        <h2>{title}</h2> {/* Render the poll title */}
+        <form onSubmit={this.submitPoll}>
+          {questions.map(question => (
+            <div key={question.id}>
+              <label>{question.content}</label>
+              {this.renderInput(question)}
+              {errors[question.id] && <div className="error">{errors[question.id]}</div>}
+            </div>
+          ))}
+          <button type="submit">Submit Poll</button> {/* Add a submit button */}
+        </form>
+      </div>
     );
   }
 }

@@ -13,7 +13,7 @@ export const getPoll = /* GraphQL */ `query GetPoll($id: ID!, $createdAt: AWSDat
     id
     title
     description
-    topic
+    topicg
     tags
     createdAt
     questions {
@@ -49,6 +49,15 @@ export const listPolls = /* GraphQL */ `query ListPolls(
       tags
       createdAt
       updatedAt
+      questions {
+        items {
+          id
+          content
+          questionType
+          options
+          required
+        }
+      }
       __typename
     }
     nextToken
@@ -56,6 +65,7 @@ export const listPolls = /* GraphQL */ `query ListPolls(
   }
 }
 ` as GeneratedQuery<APITypes.ListPollsQueryVariables, APITypes.ListPollsQuery>;
+
 export const getQuestion = /* GraphQL */ `query GetQuestion($id: ID!) {
   getQuestion(id: $id) {
     id
@@ -91,11 +101,11 @@ export const getQuestion = /* GraphQL */ `query GetQuestion($id: ID!) {
   APITypes.GetQuestionQuery
 >;
 export const listQuestions = /* GraphQL */ `query ListQuestions(
-  $filter: ModelQuestionFilterInput
+  $pollId: ID
   $limit: Int
   $nextToken: String
 ) {
-  listQuestions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listQuestions(filter: {pollId: {eq: $pollId}}, limit: $limit, nextToken: $nextToken) {
     items {
       id
       pollId
@@ -118,6 +128,8 @@ export const listQuestions = /* GraphQL */ `query ListQuestions(
   APITypes.ListQuestionsQueryVariables,
   APITypes.ListQuestionsQuery
 >;
+
+
 export const pollsByTopic = /* GraphQL */ `query PollsByTopic(
   $topic: String!
   $createdAt: ModelStringKeyConditionInput

@@ -1,25 +1,52 @@
-// src/components/Home.tsx
 import React, { useEffect, useState } from 'react';
-import { Auth } from 'aws-amplify';
+import { Auth, API, graphqlOperation } from 'aws-amplify';
 import { useNavigate } from 'react-router-dom';
 import Poll from 'components/modules/Poll';
-import { API, graphqlOperation } from 'aws-amplify';
-
-import { listPolls } from '../../graphql/queries';
+import { listPolls, listQuestions } from '../../graphql/queries';
 
 const Home: React.FC = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState<any | null>(null);
     const [polls, setPolls] = useState<any[]>([]);
 
+    // Function to fetch questions for a given poll
+    const fetchQuestionsForPoll = async (pollId) => {
+        console.log("Fetching questions for pollId:", pollId);
+        try {
+          const questionsData = await API.graphql(graphqlOperation(listQuestions, {
+            pollId,  // Directly pass pollId here
+            limit: 10
+          }));
+          console.log("Questions data received:", questionsData);
+          return questionsData.data.listQuestions.items;
+        } catch (error) {
+          console.error('Error fetching questions for poll:', error);
+          return [];
+        }
+      };
+      
+      
+      
+
     useEffect(() => {
         const fetchUserAndPolls = async () => {
             try {
                 const pollData = await API.graphql(graphqlOperation(listPolls));
-                const polls = pollData.data.listPolls.items;
+                let fetchedPolls = pollData.data.listPolls.items;
 
-                console.log("POLLS: ", polls);
-                setPolls(polls);
+                // Fetch questions for each poll
+                for (let poll of fetchedPolls) {
+                    const questionsForThisPoll = await fetchQuestionsForPoll(poll.id);
+                    poll.questions = questionsForThisPoll;
+                    console.log("Questions for poll", poll.id, ":", questionsForThisPoll);
+                }
+  
+
+
+                console.log("Fetched POLLS before setting state: ", JSON.stringify(fetchedPolls, null, 2));
+                setPolls([]); // Clear existing polls before setting new ones
+                setPolls(fetchedPolls);
+
             } catch (error) {
                 console.error('Error fetching polls', error);
             }
@@ -39,7 +66,7 @@ const Home: React.FC = () => {
     const handleLogout = async () => {
         try {
             await Auth.signOut();
-            navigate('/login'); // Redirect to the login page after successful logout
+            navigate('/login');
         } catch (error) {
             console.error('Error during logout', error);
         }
@@ -51,13 +78,12 @@ const Home: React.FC = () => {
             <section className="profile-section">
                 <h2>Your Profile:</h2>
                 <p><strong>Username:</strong> {user ? user.username : 'Fetching...'}</p>
-                {/* You can add more attributes here as you have them in the user object */}
             </section>
 
             {polls.map(poll => (
-                <Poll key={poll.id} questions={poll.questions || []} />
-            ))}
-
+                    <Poll key={poll.id} title={poll.title} questions={poll.questions || []} />
+                ))}
+                
             <button onClick={handleLogout}>Logout</button>
         </div>
     );
